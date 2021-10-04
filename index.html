@@ -1,0 +1,114 @@
+<html>
+
+   <head>
+      <link href='https://fonts.googleapis.com/css?family=JetBrains Mono' rel='stylesheet'>
+      <link rel="icon" href="https://upload.wikimedia.org/wikipedia/pt/7/73/Trollface.png" type="image/x-icon">
+      <title>String Generator | Unlimited</title>
+      <style>
+        
+         header {
+         font-family: 'JetBrains Mono';font-size: 22px;font-weight: lighter;
+         }
+         body {
+         font-family: 'JetBrains Mono';font-size: 15px;
+         }
+         button {
+         font-family: 'JetBrains Mono';font-size: 16px;
+         }
+         textarea {
+         font-family: 'JetBrains Mono';font-size: 12px;
+         }
+      </style>
+      <header>
+         <h1>String Generator    <sup color="gray">by SynnK</sup></h1>
+         <hr style="width:34%;text-align:left;margin-left:0">
+      </header>
+   </head>
+   <body>
+      Strings Length: <input type="text" name="stringsLength" id="strLength" size="10" required>
+      <br>
+      Strings Amount: <input type="text" name="stringsAmount" id="strAmount" size="10" required>
+      <br>
+      <hr style="width:34%;text-align:left;margin-left:0">
+      <div>
+         <form>
+            <p> Settings: </p>
+            <input Type="Radio" name="settings" id="allChars" checked>    All Characters <br>
+            <input Type="Radio" name="settings" id="onlyLetters"> Only Letters   <br>
+            <input Type="Radio" name="settings" id="onlyNumbers"> Only Numbers   <br>
+         </form>
+      </div>
+      <hr style="width:34%;text-align:left;margin-left:0">
+      <button type="button" onclick="generateRandomString()" id="genButton" autofocus>Generate</button>
+      <button type="button" onclick="copy()" id="copyButton" autofocus>Copy</button>
+      <button type="button" onclick="clearTextarea()" id="clearButton" autofocus>Clear</button>
+      <br>
+      <form name="textareaBox">
+         <textarea name="generatedStrings" id="genedStrings" placeholder="Click on Generate" cols="45" rows="20"></textarea>
+      </form>
+   </body>
+   <script data-cfasync="false"></script><script type="text/javascript">
+      const strignLengthEl = document.getElementById("strLength");
+      const stringNumberEl = document.getElementById("strAmount");
+      const resultArea = document.getElementById("genedStrings");
+      const generateButton = document.getElementById("genButton");
+      
+      const clearTextarea = () => {
+        resultArea.select();
+        resultArea.value = "";
+      }
+      
+      const generateRandomString = () => {
+        const stringLength = strignLengthEl.value;
+        let randomStringBase = '';
+        const  numberOfStrings =  parseInt(stringNumberEl.value);
+        if(!stringLength){
+          alert('Please enter string length');
+          return;
+        }
+        if(stringLength < 1 || stringLength > 1000){
+          alert('Please enter string length only between 1 to 1000');
+          return;
+        }
+      
+        if (document.getElementById('allChars').checked) {
+          randomStringBase += "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890_";
+        }
+        if (document.getElementById('onlyLetters').checked) {
+          randomStringBase += "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_";
+        }
+        if (document.getElementById('onlyNumbers').checked) {
+          randomStringBase += "1234567890_";
+        }
+      
+        if(numberOfStrings < 1 || numberOfStrings > 1000){
+          alert('Please enter numbr of strings only between 1 to 1000');
+          return;
+        }
+      
+        const randomStrings = Array.apply(null, Array(numberOfStrings)).map((x) => {
+          let randomString = "";
+          for (var i = 0, n = randomStringBase.length; i < stringLength; ++i) {
+            randomString += randomStringBase.charAt(Math.floor(Math.random() * n));
+          }
+          return randomString;
+        });
+        resultArea.value = randomStrings.join("\n");
+      }
+      
+      const copy = () => {
+        resultArea.select();
+        try {
+          const successful = document.execCommand("copy");
+          const msg = successful ? "Copied!" : `can't copy`;
+          const copyBtn = document.getElementById("copyButton");
+          alert(msg)
+        } catch (err) {
+          console.error("Fallback: Oops, unable to copy", err);
+        }
+      }
+   </script>
+
+<hr style="width:60%;text-align:left;margin-left:0">
+<p>SynnK - String Generator © 2021</p>
+</html>
